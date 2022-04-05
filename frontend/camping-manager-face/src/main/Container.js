@@ -15,10 +15,11 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import VisitorPage from '../visitor/VisitorPage';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+import Home from "../main/Home";
+import ProductPage from "../Product/ProductPage";
 
 const drawerWidth = 235;
 
@@ -68,9 +69,31 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     justifyContent: 'flex-end',
 }));
 
-export default function Container() {
+function Container() {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
+    const navigate = useNavigate();
+    const drawerList = [
+        {
+            text: "Home",
+            icon: <ListItemIcon />,
+            onClick: () => navigate("/")
+        },
+        {
+            text: "Visitor Management",
+            icon: <ListItemIcon />,
+            onClick: () => navigate("/visitor")
+        },
+        {
+            text: "Item Management",
+            icon: <ListItemIcon />,
+            onClick: () => navigate("/product")
+        },
+        {
+            text: "Next Feature",
+            icon: <ListItemIcon />,
+            onClick: () => navigate("/product")
+        }];
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -127,19 +150,27 @@ export default function Container() {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    {['Visitor Management', 'Item Management', 'next feature'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>
-                                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
+                    {drawerList.map((item, index) => {
+                        const { text, icon, onClick } = item;
+                        return (
+                            <ListItem button key={text} onClick={onClick}>
+                                {icon && <ListItemIcon>{icon}</ListItemIcon>}
+                                <ListItemText primary={text} />
+                            </ListItem>
+                        );
+                    })}
                 </List>
             </Drawer>
             <Main open={open} >
-                <VisitorPage />
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="visitor" element={<VisitorPage />} />
+                    <Route path="product" element={<ProductPage />} />
+                    <Route path="*" element={<ProductPage />} />
+
+                </Routes>
             </Main>
         </Box>
     );
 }
+export default Container;

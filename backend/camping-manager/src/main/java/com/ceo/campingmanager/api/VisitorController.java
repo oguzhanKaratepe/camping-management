@@ -19,13 +19,13 @@ public class VisitorController {
 
     @PostMapping("visitor")
     public void addVisitor(@RequestBody Visitor visitor) {
-        System.out.println("here");
         visitorService.addVisitor(visitor);
     }
 
     @GetMapping("visitor")
     public List<Visitor> getAllVisitors() {
-        return visitorService.getAllVisitors();
+        List<Visitor> v=visitorService.getAllVisitors();
+        return v;
     }
 
     @GetMapping("visitor/{id}")

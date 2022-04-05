@@ -1,8 +1,10 @@
 package com.ceo.campingmanager.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 enum Gender {
@@ -15,23 +17,26 @@ enum Gender {
 @Table(name = "visitors")
 public class Visitor {
     @Id
-    @Column(name = "ID")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @Column(name = "NAME")
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "IDENTITY")
+    @Column(name = "identity")
     private String identity;
 
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "GENDER")
+    @Column(name = "gender")
     private Gender gender;
 
-    @Column(name = "REGISTRATIONTIME")
-    private LocalDateTime registrationTime;
+    @Column(name = "checkin")
+    private LocalDateTime checkInTime;
+
+    @Column(name = "checkout")
+    private LocalDateTime checkOutTime;
 
     public Visitor() {
     }
@@ -40,13 +45,15 @@ public class Visitor {
                    @JsonProperty("name") String name,
                    @JsonProperty("identity") String identity,
                    @JsonProperty("gender") Gender gender,
-                   @JsonProperty("registrationTime") LocalDateTime registrationTime
+                   @JsonProperty("checkInTime") LocalDateTime checkInTime,
+                   @JsonProperty("checkOutTime") LocalDateTime checkOutTime
     ) {
         this.id = id;
         this.name = name;
         this.identity = identity;
         this.gender = gender;
-        this.registrationTime = registrationTime;
+        this.checkInTime = checkInTime;
+        this.checkOutTime = checkOutTime;
     }
 
     public String getIdentity() {
@@ -57,8 +64,12 @@ public class Visitor {
         return gender;
     }
 
-    public LocalDateTime getRegistrationTime() {
-        return registrationTime;
+    public LocalDateTime getCheckInTime() {
+        return checkInTime;
+    }
+
+    public LocalDateTime getCheckOutTime() {
+        return checkOutTime;
     }
 
     public int getId() {
